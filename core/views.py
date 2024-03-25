@@ -1,9 +1,17 @@
 from django.shortcuts import render
+from .models import *
+
 
 def index(request):
     return render(request, 'core/index.html')
+    
 def shop(request):
-    return render(request, 'core/shop.html')
+    productos = Producto.objects.all()
+    data ={
+        'listaproductos':productos
+    }
+    return render(request, 'core/shop.html',data)
+
 def base(request):
     return render(request, 'core/base.html')
 def detail(request):

@@ -5,23 +5,12 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import AbstractUser
 from django.shortcuts import render, redirect
 
-class User(AbstractUser):
-    nombre = models.CharField(max_length=100, blank=False)
-    direccion = models.CharField(max_length=150, blank=False)
-    suscrito = models.BooleanField(default=False, blank=True)
-    imagen = models.ImageField(null=True,blank=True)
-    def __str__(self):
-        return self.nombre
 
 
 class TipoEmpleado(models.Model):
     descripcion = models.CharField(max_length=50)
     def  __str__(self):
         return self.descripcion
-    
-
-    
-
 
 class TipoProducto(models.Model):
     descripcion = models.CharField(max_length=50)
@@ -48,10 +37,10 @@ class Empleado(models.Model):
     
 class Producto(models.Model):
     nombre = models.CharField(max_length=50)
-    precio = models.IntegerField
+    precio = models.IntegerField()
     imagen = models.ImageField(null=True,blank=True)
     tipo = models.ForeignKey(TipoProducto, on_delete=models.CASCADE)
-    stock = models.IntegerField
+    stock = models.IntegerField()
     def  __str__(self):
         return self.nombre
     
@@ -83,39 +72,39 @@ class Envio(models.Model):
     def  __str__(self):
         return self.descripcion
     
-class CarritoProducto(models.Model):
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    cantidad = models.PositiveIntegerField(default=1)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    def subtotal(self):
-        return self.producto.precio * self.cantidad
+# class CarritoProducto(models.Model):
+#     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+#     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+#     cantidad = models.PositiveIntegerField(default=1)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     def subtotal(self):
+#         return self.producto.precio * self.cantidad
 
-class CarritoCliente(models.Model):
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
-    items = models.ManyToManyField(CarritoProducto)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    def calcular_desc(self):
-        acumulador = 0
-        descuento = 0
-        for aux in self.items.all():
-            if aux.usuario.suscrito == True:
-                acumulador += aux.subtotal()
-                descuento = round(acumulador * 0.05)
-            else:
-                acumulador += aux.subtotal()
-                descuento = 0
-        return descuento
-    def calcular_total(self):
-        acumulador = 0
-        total = 0
-        for aux in self.items.all():
-            if aux.usuario.suscrito == True:
-                acumulador += aux.subtotal()
-                total = round(acumulador * 0.95)
-            else:
-                acumulador += aux.subtotal()
-                total = acumulador
-        return total
+# class CarritoCliente(models.Model):
+#     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+#     items = models.ManyToManyField(CarritoProducto)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     def calcular_desc(self):
+#         acumulador = 0
+#         descuento = 0
+#         for aux in self.items.all():
+#             if aux.usuario.suscrito == True:
+#                 acumulador += aux.subtotal()
+#                 descuento = round(acumulador * 0.05)
+#             else:
+#                 acumulador += aux.subtotal()
+#                 descuento = 0
+#         return descuento
+#     def calcular_total(self):
+#         acumulador = 0
+#         total = 0
+#         for aux in self.items.all():
+#             if aux.usuario.suscrito == True:
+#                 acumulador += aux.subtotal()
+#                 total = round(acumulador * 0.95)
+#             else:
+#                 acumulador += aux.subtotal()
+#                 total = acumulador
+#         return total
