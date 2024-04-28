@@ -46,28 +46,19 @@
             <div class="col-lg-6 text-center text-lg-right">
                 <div class="d-inline-flex align-items-center">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Mi Cuenta</button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <button class="dropdown-item" type="button">Sign in</button>
-                            <button class="dropdown-item" type="button">Sign up</button>
+                            {% if user.is_authenticated %}
+                            <p class="dropdown-item">{{ user.username }}</p>
+                            <a href="{% url 'logout' %}" class="dropdown-item" type="button">Cerrar sesión</a>
+                            {% else %}
+                            <a href="{% url 'login' %}" class="dropdown-item" type="button">Iniciar sesión</a>
+                            <img class="img-fluid w-100" src="{% static 'core/img/user.jpg' %}">
+                            {% endif %}
+
                         </div>
                     </div>
-                    <div class="btn-group mx-2">
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">USD</button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <button class="dropdown-item" type="button">EUR</button>
-                            <button class="dropdown-item" type="button">GBP</button>
-                            <button class="dropdown-item" type="button">CAD</button>
-                        </div>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">EN</button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <button class="dropdown-item" type="button">FR</button>
-                            <button class="dropdown-item" type="button">AR</button>
-                            <button class="dropdown-item" type="button">RU</button>
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="d-inline-flex align-items-center d-block d-lg-none">
                     <a href="" class="btn px-0 ml-2">
@@ -85,7 +76,7 @@
             <div class="col-lg-4">
                 <a href="" class="text-decoration-none">
                     <span class="h1 text-uppercase text-primary bg-dark px-2">Ferre</span>
-                    <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Max</span>
+                    <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Marx</span>
                 </a>
             </div>
             <div class="col-lg-4 col-6 text-left">
@@ -150,7 +141,7 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
+                            <a href="{% url 'index' %}" class="nav-item nav-link">Home</a>
                             <a href="{% url 'shop' %}" class="nav-item nav-link">Shop</a>
                             <a href="{% url 'detail' %}" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
@@ -178,7 +169,7 @@
         </div>
     </div>
     <!-- Navbar End -->
-
+    
 
     {% block content %}
     {% endblock %}
