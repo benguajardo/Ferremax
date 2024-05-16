@@ -3,3 +3,5 @@ django-admin-interface
 django-crispy-forms
 pillow
 crispy-bootstrap4
+pymysql
+mysqlclient
